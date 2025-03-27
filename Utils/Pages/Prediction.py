@@ -199,12 +199,13 @@ def pred():
                     desc_calc()
 
                     # Read in calculated descriptors and display the dataframe
-                    desc = pd.read_csv('descriptors_output_pic50_RF.csv')
+                    desc_reg = pd.read_csv('descriptors_output_pic50_RF.csv')
+                    desc_clf = pd.read_csv('descriptors_output_pic50_CF.csv')
                     # Read descriptor list used in previously built model
                     Xlist_clf = list(pd.read_csv('./Utils/Pages/Models/Classification/IC50/df_MACCS_final_classification.csv').columns)
                     Xlist_reg = list(pd.read_csv('./Utils/Pages/Models/Regression/IC50/df_Substructure_final.csv').columns)
-                    desc_subset_clf = desc[Xlist_clf]
-                    desc_subset_reg = desc[Xlist_reg]
+                    desc_subset_clf = desc_clf[Xlist_clf]
+                    desc_subset_reg = desc_reg[Xlist_reg]
                     # Apply trained model to make prediction on query compounds
                     build_model_reg(desc_subset_reg)
                     build_model_clf(desc_subset_clf)
