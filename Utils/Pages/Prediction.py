@@ -33,8 +33,7 @@ def pred():
     col1.markdown("### **Submit the Compound**")
     st.markdown("---")
 
-    # Defining the molecules from smiles data and rendering its visualization
-
+    # Function to generate molecule block for visualization
     def makeblock(smi):
         mol = Chem.MolFromSmiles(smi)
         mol = Chem.AddHs(mol)
@@ -45,7 +44,7 @@ def pred():
     def render_mol(xyz):
         xyzview = py3Dmol.view(height=250, width=650)
         xyzview.addModel(xyz, 'mol')
-        xyzview.setStyle({'stick': ()})
+        xyzview.setStyle({'stick': {}})
         xyzview.setBackgroundColor('white')
         xyzview.zoomTo()
         showmol(xyzview, height=250, width=650)
@@ -63,28 +62,32 @@ def pred():
     col1, col2 = st.columns(2)
     compound_pathway = col1.selectbox(
         'Select the bioactivity to be predicted',
-        ('IC50', 'EC50', 'Activity %')
-        , index=0)
+        ('IC50', 'EC50', 'Activity %'),
+        index=0
+    )
 
     # Target Specification for Pathways
     if compound_pathway == "IC50":
         wnt_targets = col2.selectbox(
             'Select the target',
-            ('PPARγ',), index=0)
+            ('PPARγ',),
+            index=0
+        )
         st.markdown("---")
 
         # Button functionality
         if st.button("Submit for Prediction", key='Submit'):
             submission_data = pd.DataFrame(
-                {"SMILES": [compound_smiles], "Compound Name/ID": [compound_name]})
-            submission_data.to_csv('molecule.smi', sep='\t', header=False,
-                                   index=False)
+                {"SMILES": [compound_smiles], "Compound Name/ID": [compound_name]}
+            )
+            submission_data.to_csv('molecule.smi', sep='\t', header=False, index=False)
+
             if wnt_targets == "PPARγ":
                 st.markdown('## **Prediction Results**')
 
                 # Molecular descriptor calculator
                 def desc_calc():
-                    # Specify the full command as a single string
+                    # Full command to run PaDEL-Descriptor for descriptor calculation
                     bashCommand = (
                         "java -Xms2G -Xmx2G -Djava.awt.headless=true "
                         "-jar ./PaDEL-Descriptor/PaDEL-Descriptor.jar "
@@ -94,31 +97,33 @@ def pred():
                     )
                     
                     try:
-                        process = subprocess.Popen(bashCommand, shell=True, stdout=subprocess.PIPE,
-                                                   stderr=subprocess.PIPE)
+                        process = subprocess.Popen(
+                            bashCommand, shell=True,
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE
+                        )
                         output, error = process.communicate()
-
                         if process.returncode == 0:
                             print("Descriptor calculation completed successfully.")
                         else:
                             print(f"Error encountered:\n{error.decode('utf-8')}")
                     except Exception as e:
                         print(f"An error occurred: {e}")
+                    # Optionally, remove the molecule file
                     # os.remove('molecule.smi')
 
-                # File download
+                # File download helper
                 def filedownload(df):
                     csv = df.to_csv(index=False)
-                    b64 = base64.b64encode(
-                        csv.encode()).decode()  # strings <-> bytes conversions
+                    b64 = base64.b64encode(csv.encode()).decode()  # string <-> bytes conversion
                     href = f'<a href="data:file/csv;base64,{b64}" download="prediction.csv">Download </a>'
                     return href
 
-                def build_model(input_data):
+                # Build the regression model predictions
+                def build_model(input_data, compound_name):
                     download = './Utils/Pictures/Download-Icon.png'
                     downloadbutton = Image.open(download)
 
-                    # Reads in saved regression model
+                    # Load the saved regression model
                     rf_sub_ic50 = './Utils/Pages/Models/Regression/IC50/rf_reg_sub_model.pkl'
                     load_model = joblib.load(open(rf_sub_ic50, 'rb'))
 
@@ -127,17 +132,19 @@ def pred():
 
                     st.markdown('###### **$IC_{50}$**')
                     prediction_output = pd.Series(prediction, name='pIC50')
-                    molecule_name = pd.Series(compound_name, name='Compound Name/ID')
+                    molecule_name_series = pd.Series(compound_name, name='Compound Name/ID')
 
                     # Convert pIC50 to IC50 (in M) and then to nM
-                    calc_IC50 = 10 ** -prediction_output * 10 ** 9
+                    calc_IC50 = 10 ** (-prediction_output) * 1e9  # 10^(-pIC50) in M -> nM conversion
                     prediction_IC50 = pd.Series(calc_IC50, name='IC50 (nM)')
 
-                    df = pd.concat([molecule_name, prediction_output, prediction_IC50, prediction_output_cf], axis=1)
+                    df = pd.concat([molecule_name_series, prediction_output, prediction_IC50], axis=1)
 
                     st.markdown(
-                        "The **$IC_{50}$** of " + str(compound_name) + " is " + "<span style='color:green'><b>" +
-                        str(np.round(calc_IC50[0], 2)) + " nM", unsafe_allow_html=True)
+                        "The **$IC_{50}$** of " + str(compound_name) + " is " +
+                        "<span style='color:green'><b>" + str(np.round(calc_IC50.iloc[0], 2)) +
+                        " nM</b></span>", unsafe_allow_html=True
+                    )
                     st.write(df)
 
                     c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15 = st.columns(15)
@@ -148,12 +155,20 @@ def pred():
                     return df
 
                 with st.spinner("PPGBioPred is calculating Bioactivity..."):
+                    # Calculate descriptors using PaDEL-Descriptor
                     desc_calc()
 
-                    # Read in calculated descriptors and display the dataframe
+                    # Read in calculated descriptors
                     desc = pd.read_csv('descriptors_output_pic50_RF.csv')
                     # Read descriptor list used in previously built model
                     Xlist = list(pd.read_csv('./Utils/Pages/Models/Regression/IC50/df_Substructure_final.csv').columns)
-                    desc_subset = desc.drop(columns=Xlist, errors='ignore')
-                    # Apply trained model to make prediction on query compounds
-                    build_model(desc_subset)
+                    
+                    # Select only the columns that match the descriptor list
+                    try:
+                        desc_subset = desc[Xlist]
+                    except KeyError as e:
+                        st.error(f"Error subsetting descriptors: {e}")
+                        st.stop()
+
+                    # Apply the trained regression model to make predictions
+                    build_model(desc_subset, compound_name)
