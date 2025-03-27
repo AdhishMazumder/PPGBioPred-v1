@@ -92,7 +92,7 @@ def pred():
                         "java -Xms2G -Xmx2G -Djava.awt.headless=true "
                         "-jar ./PaDEL-Descriptor/PaDEL-Descriptor.jar "
                         "-removesalt -standardizenitro -fingerprints "
-                        "-descriptortypes ./PaDEL-Descriptor/SubstructureFingerprintCount.xml "
+                        "-descriptortypes ./PaDEL-Descriptor/SubstructureFingerprinter.xml "
                         "-dir ./ -file descriptors_output_pic50_RF.csv"
                     )
                     
