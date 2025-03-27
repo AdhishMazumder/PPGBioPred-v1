@@ -13,9 +13,9 @@ import warnings
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
 # ---Image Upload Section--- #
-PI = Image.open('Dr_I_Manjubala.png')
-AD = Image.open('Adhish_Mazumder.png')
-NA = Image.open('Nayan.png')
+PI = Image.open('/mount/src/ppgbiopred-v1/Utils/Pictures/Dr_I_Manjubala.png')
+AD = Image.open('/mount/src/ppgbiopred-v1/Utils/Pictures/Adhish_Mazumder.png')
+NA = Image.open('/mount/src/ppgbiopred-v1/Utils/Pictures/Nayan.png')
 
 # ---Contact Page--- #
 
