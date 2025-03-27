@@ -114,27 +114,27 @@ def pred():
                     href = f'<a href="data:file/csv;base64,{b64}" download="prediction.csv">Download </a>'
                     return href
 
-                import os
-
                 def build_model_reg(input_data, compound_name):
                     # Load download icon image with error handling
                     download_icon_path = './Utils/Pictures/Download-Icon.png'
-                    try:
-                        downloadbutton = Image.open(download_icon_path)
-                    except FileNotFoundError:
+                    if not os.path.exists(download_icon_path):
                         st.error(f"Download icon not found at: {download_icon_path}")
                         return
+                    downloadbutton = Image.open(download_icon_path)
                 
-                    # Read in the saved regression model with error handling
+                    # Load the regression model with error handling
                     rf_subc_ic50 = './Utils/Pages/Models/Regression/IC50/rf_reg_sub_model.pkl'
+                    if not os.path.exists(rf_subc_ic50):
+                        st.error(f"Regression model file not found at: {rf_subc_ic50}")
+                        return
                     try:
                         with open(rf_subc_ic50, 'rb') as model_file:
                             load_model = pickle.load(model_file)
-                    except FileNotFoundError:
-                        st.error(f"Regression model file not found at: {rf_subc_ic50}")
+                    except Exception as e:
+                        st.error(f"Error loading the regression model: {e}")
                         return
                 
-                    # Apply model to make predictions
+                    # Make predictions with error handling
                     try:
                         prediction_reg = load_model.predict(input_data)
                     except Exception as e:
@@ -146,8 +146,7 @@ def pred():
                     molecule_name = pd.Series(compound_name, name='Compound Name/ID')
                 
                     # Convert pIC50 to IC50 (in M) and then to nM
-                    # Note: 10^(-pIC50) gives the IC50 in M, multiplying by 1e9 converts to nM
-                    calc_IC50 = 10 ** (-prediction_output_reg) * 1e9
+                    calc_IC50 = 10 ** (-prediction_output_reg) * 1e9  # 10^(-pIC50) in M, multiplied by 1e9 to convert to nM
                     prediction_IC50 = pd.Series(calc_IC50, name='IC50 (nM)')
                 
                     df = pd.concat([molecule_name, prediction_output_reg, prediction_IC50], axis=1)
@@ -158,7 +157,7 @@ def pred():
                         " nM</b></span>", unsafe_allow_html=True)
                     st.write(df)
                 
-                    # Create columns and display the download icon and file download link
+                    # Create columns to display download icon and file download link
                     columns = st.columns(15)
                     with columns[0]:
                         st.image(downloadbutton, output_format="PNG", channels="RGB", width=25)
@@ -167,25 +166,31 @@ def pred():
                 
                     return df
                 
-                # The following code is likely part of a larger workflow
+                # Example usage within the app:
                 with st.spinner("PPGBioPred is calculating Bioactivity..."):
                     # Assuming desc_calc() is a function that calculates descriptors
                     desc_calc()
                     
-                    # Read in calculated descriptors with error handling
+                    # Check if the descriptors CSV file exists before attempting to read it
                     descriptors_file = 'descriptors_output_pic50_RF.csv'
+                    if not os.path.exists(descriptors_file):
+                        st.error(f"Descriptors file not found: {descriptors_file}. Please verify the file path.")
+                        st.stop()
                     try:
                         desc_reg = pd.read_csv(descriptors_file)
-                    except FileNotFoundError:
-                        st.error(f"Descriptors file not found: {descriptors_file}")
-                        st.stop()  # Stop further execution if file is missing
+                    except Exception as e:
+                        st.error(f"Error reading the descriptors file: {e}")
+                        st.stop()
                 
-                    # Read descriptor list used in the previously built model with error handling
+                    # Check and load the descriptor list used in the regression model
                     descriptor_list_file = './Utils/Pages/Models/Regression/IC50/df_Substructure_final.csv'
+                    if not os.path.exists(descriptor_list_file):
+                        st.error(f"Descriptor list file not found: {descriptor_list_file}")
+                        st.stop()
                     try:
                         Xlist_reg = list(pd.read_csv(descriptor_list_file).columns)
-                    except FileNotFoundError:
-                        st.error(f"Descriptor list file not found: {descriptor_list_file}")
+                    except Exception as e:
+                        st.error(f"Error reading the descriptor list file: {e}")
                         st.stop()
                 
                     # Subset the descriptors based on the expected list
@@ -195,9 +200,7 @@ def pred():
                         st.error(f"Error subsetting descriptors: {e}")
                         st.stop()
                 
-                    # Make predictions using the regression model
-                    # Ensure that compound_name is defined before calling the function.
-                    compound_name = "YourCompoundName"  # Replace or obtain this value as needed.
+                    # Ensure compound_name is defined or obtained from your app context
+                    compound_name = "YourCompoundName"  # Replace with actual compound name or variable
                     build_model_reg(desc_subset_reg, compound_name)
-
 
