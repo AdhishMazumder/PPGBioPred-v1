@@ -90,7 +90,7 @@ def pred():
                         "-jar ./PaDEL-Descriptor/PaDEL-Descriptor.jar "
                         "-removesalt -standardizenitro -fingerprints "
                         "-descriptortypes ./PaDEL-Descriptor/SubstructureFingerprinter.xml "
-                        "-dir ./ -file descriptors_output_pic50_RF.csv"
+                        "-dir ./ -file ./descriptors_output_pic50_RF.csv"
                     )
 
                     try:
@@ -172,7 +172,7 @@ def pred():
                     desc_calc()
                     
                     # Check if the descriptors CSV file exists before attempting to read it
-                    descriptors_file = 'descriptors_output_pic50_RF.csv'
+                    descriptors_file = './descriptors_output_pic50_RF.csv'
                     if not os.path.exists(descriptors_file):
                         st.error(f"Descriptors file not found: {descriptors_file}. Please verify the file path.")
                         st.stop()
