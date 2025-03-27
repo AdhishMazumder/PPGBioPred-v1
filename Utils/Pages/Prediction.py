@@ -160,15 +160,16 @@ def pred():
 
                     # Read in calculated descriptors
                     desc = pd.read_csv('descriptors_output_pic50_RF.csv')
+                    
                     # Read descriptor list used in previously built model
                     Xlist = list(pd.read_csv('./Utils/Pages/Models/Regression/IC50/df_Substructure_final.csv').columns)
                     
-                    # Select only the columns that match the descriptor list
-                    try:
-                        desc_subset = desc[Xlist]
-                    except KeyError as e:
-                        st.error(f"Error subsetting descriptors: {e}")
+                    # Instead of dropping columns, select only the columns that are common between the descriptor file and Xlist
+                    common_cols = [col for col in Xlist if col in desc.columns]
+                    if not common_cols:
+                        st.error("None of the expected descriptor columns were found in the descriptor file.")
                         st.stop()
+                    desc_subset = desc[common_cols]
 
                     # Apply the trained regression model to make predictions
                     build_model(desc_subset, compound_name)
