@@ -92,7 +92,7 @@ def pred():
                         "java -Xms2G -Xmx2G -Djava.awt.headless=true "
                         "-jar ./PaDEL-Descriptor/PaDEL-Descriptor.jar "
                         "-removesalt -standardizenitro -fingerprints "
-                        "-descriptortypes ./PaDEL-Descriptor/SubstructureFingerprinter.xml "
+                        "-descriptortypes ./PaDEL-Descriptor/SubstructureFingerprintCount.xml "
                         "-dir ./ -file descriptors_output_pic50_RF.csv"
                     )
                     
@@ -165,11 +165,11 @@ def pred():
                     Xlist = list(pd.read_csv('./Utils/Pages/Models/Regression/IC50/df_Substructure_final.csv').columns)
                     
                     # Instead of dropping columns, select only the columns that are common between the descriptor file and Xlist
-                    #common_cols = [col for col in Xlist if col in desc.columns]
-                    #if not common_cols:
-                        #st.error("None of the expected descriptor columns were found in the descriptor file.")
-                        #st.stop()
-                    desc_subset = desc[Xlist]
+                    common_cols = [col for col in Xlist if col in desc.columns]
+                    if not common_cols:
+                        st.error("None of the expected descriptor columns were found in the descriptor file.")
+                        st.stop()
+                    desc_subset = desc[common_cols]
 
                     # Apply the trained regression model to make predictions
                     build_model(desc_subset, compound_name)
