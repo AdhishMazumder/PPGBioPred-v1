@@ -63,7 +63,7 @@ def pred():
     col1, col2 = st.columns(2)
     compound_pathway = col1.selectbox(
         'Select the bioactivity to be predicted',
-        ('IC50', 'EC50', 'Activity %')
+        ('IC50', 'EC50')
         , index=0)
 
     # Target Specification for Pathways
