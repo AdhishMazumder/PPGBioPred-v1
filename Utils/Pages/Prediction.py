@@ -119,7 +119,7 @@ def pred():
 
                     # Reads in saved regression model
                     rf_sub_ic50 = './Utils/Pages/Models/Regression/IC50/rf_sub_model.pkl'
-                    load_model = pickle.load(open(rf_subc_ic50, 'rb'))
+                    load_model = pickle.load(open(rf_sub_ic50, 'rb'))
 
                     # Apply model to make predictions
                     prediction = load_model.predict(input_data)
