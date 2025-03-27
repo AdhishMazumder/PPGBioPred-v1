@@ -153,6 +153,6 @@ def pred():
                     desc = pd.read_csv('descriptors_output_pic50_RF.csv')
                     # Read descriptor list used in previously built model
                     Xlist = list(pd.read_csv('./Utils/Pages/Models/Regression/IC50/df_Substructure_final.csv').columns)
-                    desc_subset = desc[Xlist]
+                    desc_subset = desc.drop(columns=Xlist, errors='ignore')
                     # Apply trained model to make prediction on query compounds
                     build_model(desc_subset)
