@@ -178,7 +178,6 @@ def pred():
                     
                     # Read descriptor list used in previously built model
                     Xlist = list(pd.read_csv('./Utils/Pages/Models/Regression/IC50/df_Substructure_final.csv').columns)
-                    Xliist.shape
                     
                     # Instead of dropping columns, select only the columns that are common between the descriptor file and Xlist
                     common_cols = [col for col in Xlist if col in desc.columns]
