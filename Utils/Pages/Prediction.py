@@ -220,7 +220,6 @@ def pred():
                     # Apply model to make predictions
                     prediction_clf = load_model_clf.predict(input_data)
 
-                    st.markdown('###### **$IC_{50}$**')
                     prediction_output_clf = pd.Series(prediction_clf, name='Classification')
                     molecule_name_series = pd.Series(compound_name, name='Compound Name/ID')
 
