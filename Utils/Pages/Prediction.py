@@ -2,6 +2,7 @@
 
 # Streamlit Libraries
 import streamlit as st
+import os
 
 # Core Libraries
 import base64
