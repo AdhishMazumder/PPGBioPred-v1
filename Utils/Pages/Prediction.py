@@ -103,7 +103,7 @@ def pred():
                         "-removesalt -standardizenitro -fingerprints "
                         "-descriptortypes ./PaDEL-Descriptor/SubstructureFingerprinter.xml "
                         "-smiles molecule.smi "
-                        "-file descriptors_output_pic50_RF.csv"
+                        "-file ./descriptors_output_pic50_RF.csv"
                     )
                     
                     try:
@@ -172,7 +172,7 @@ def pred():
                     desc_calc()
 
                     # Read in calculated descriptors
-                    desc = pd.read_csv('descriptors_output_pic50_RF.csv')
+                    desc = pd.read_csv('./descriptors_output_pic50_RF.csv')
                     
                     # Read descriptor list used in previously built model
                     Xlist = list(pd.read_csv('./Utils/Pages/Models/Regression/IC50/df_Substructure_final.csv').columns)
@@ -196,7 +196,7 @@ def pred():
                         "-removesalt -standardizenitro -fingerprints "
                         "-descriptortypes ./PaDEL-Descriptor/MACCSFingerprinter.xml "
                         "-smiles molecule.smi "
-                        "-file descriptors_output_pic50_CF.csv"
+                        "-file ./descriptors_output_pic50_CF.csv"
                     )
                     
                     try:
@@ -280,7 +280,7 @@ def pred():
                     desc_calc_clf()
 
                     # Read in calculated descriptors
-                    desc_clf = pd.read_csv('descriptors_output_pic50_CF.csv')
+                    desc_clf = pd.read_csv('./descriptors_output_pic50_CF.csv')
                     
                     # Read descriptor list used in previously built model
                     Xlist_clf = list(pd.read_csv('./Utils/Pages/Models/Classification/IC50/df_MACCS_final_classification.csv').columns)
