@@ -46,8 +46,8 @@ def coreapp():
     # ---Setting the Navigation Bar--- #
     select = option_menu(
         menu_title=None,
-        options=["Home", "Prediction", "Tutorial", "Contact"],
-        icons=["house-door-fill", "cloud-upload-fill", "display-fill", "envelope-fill"],
+        options=["Home", "Prediction", "Contact"],
+        icons=["house-door-fill", "cloud-upload-fill", "envelope-fill"],
         menu_icon="cast",
         default_index=0,
         orientation="horizontal",
