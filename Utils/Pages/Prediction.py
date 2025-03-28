@@ -246,19 +246,19 @@ def pred():
 
                     c1, c2 = st.columns(2)
                     with c1:
-                        if classification_result.iloc[0] == 'active':
+                        if classification_result == 'active':
                             st.markdown(
                                 f"{compound_name} demonstrates <span style='color:green'><b>Active</b></span> inhibition of the target.",
                                 unsafe_allow_html=True
                             )
                         
-                        elif classification_result.iloc[0] == 'inactive':
+                        elif classification_result == 'inactive':
                             st.markdown(
                                 f"{compound_name} does not exhibit significant activity against the target.",
                                 unsafe_allow_html=True
                             )
                         
-                        elif classification_result.iloc[0] == 'intermediate':
+                        elif classification_result == 'intermediate':
                             st.markdown(
                                 f"{compound_name} demonstrates an <span style='color:orange'><b>Intermediate</b></span> effect, suggesting possible dose-dependence.",
                                 unsafe_allow_html=True
@@ -460,32 +460,32 @@ def pred():
                     classification_result = str(prediction_clf[0]).lower()  # assume output is a string like 'active' or 'inactive'
                 
                     # Retrieve the regression pEC50 value (if available)
-                    reg_pEC50.iloc[0] = st.session_state.get('reg_pEC50', None)
-                    if reg_pEC50.iloc[0] is not None:
+                    reg_pEC50 = st.session_state.get('reg_pEC50', None)
+                    if reg_pEC50 is not None:
                         # If the pEC50 is between 5.0 and 6.0 and classification predicts 'active', override it to 'intermediate'
-                        if 5.0 <= reg_pEC50.iloc[0] <= 6.0 and classification_result.iloc[0] == 'active':
-                            classification_result.iloc[0] = 'intermediate'            
+                        if 5.0 <= reg_pEC50 <= 6.0 and classification_result == 'active':
+                            classification_result = 'intermediate'            
                     
-                    prediction_output_clf = pd.Series(classification_result.capitalize().iloc[0], name='Classification')
+                    prediction_output_clf = pd.Series(classification_result.capitalize(), name='Classification')
                     molecule_name_series = pd.Series(compound_name, name='Compound Name/ID')
                 
                     df_clf = pd.concat([molecule_name_series, prediction_output_clf], axis=1)
                 
                     c1, c2 = st.columns(2)
                     with c1:
-                        if classification_result.iloc[0] == 'active':
+                        if classification_result == 'active':
                             st.markdown(
                                 f"{compound_name} exhibits <span style='color:green'><b>High</b></span> potency against the target.",
                                 unsafe_allow_html=True
                             )
                         
-                        elif classification_result.iloc[0] == 'inactive':
+                        elif classification_result == 'inactive':
                             st.markdown(
                                 f"{compound_name} does not exhibit significant activity against the target.",
                                 unsafe_allow_html=True
                             )
                         
-                        elif classification_result.iloc[0] == 'intermediate':
+                        elif classification_result == 'intermediate':
                             st.markdown(
                                 f"{compound_name} demonstrates an <span style='color:orange'><b>Intermediate</b></span> effect, suggesting possible dose-dependence.",
                                 unsafe_allow_html=True
