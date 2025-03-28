@@ -84,7 +84,7 @@ def pred():
                     os.remove(file)
             
             submission_data = pd.DataFrame(
-                {"SMILES": [compound_smiles], "Compound Name/ID": [compound_name]}
+                {"SMILES": [compound_smiles], "Name": [compound_name]}
             )
             submission_data.to_csv('molecule.smi', sep='\t', header=False, index=False)
 
@@ -99,8 +99,7 @@ def pred():
                         "-jar PaDEL-Descriptor/PaDEL-Descriptor.jar "
                         "-removesalt -standardizenitro -fingerprints "
                         "-descriptortypes PaDEL-Descriptor/SubstructureFingerprinter.xml "
-                        "-smiles molecule.smi "
-                        "-file descriptors_output_pic50_RF.csv"
+                        "-dir ./ -file descriptors_output_pic50_RF.csv"
                     )
                     
                     try:
@@ -109,12 +108,13 @@ def pred():
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE
                         )
                         output, error = process.communicate()
-                        if process.returncode == 0:
-                            print("Descriptor calculation completed successfully.")
+                        print("Output:", output.decode('utf-8'))
+                        if process.returncode != 0:
+                            print("Error:", error.decode('utf-8'))
                         else:
-                            print(f"Error encountered:\n{error.decode('utf-8')}")
+                            print("Descriptor calculation completed successfully.")
                     except Exception as e:
-                        print(f"An error occurred: {e}")
+                        print("An exception occurred:", e)
                     # Optionally, remove the molecule file
                     # os.remove('molecule.smi')
 
@@ -199,8 +199,7 @@ def pred():
                         "-jar PaDEL-Descriptor/PaDEL-Descriptor.jar "
                         "-removesalt -standardizenitro -fingerprints "
                         "-descriptortypes PaDEL-Descriptor/MACCSFingerprinter.xml "
-                        "-smiles molecule.smi "
-                        "-file descriptors_output_pic50_CF.csv"
+                        "-dir ./ -file descriptors_output_pic50_CF.csv"
                     )
                     
                     try:
@@ -333,8 +332,7 @@ def pred():
                         "-jar PaDEL-Descriptor/PaDEL-Descriptor.jar "
                         "-removesalt -standardizenitro -fingerprints "
                         "-descriptortypes PaDEL-Descriptor/PubchemFingerprinter.xml "
-                        "-smiles molecule.smi "
-                        "-file descriptors_output_pec50_RF.csv"
+                        "-dir ./ -file descriptors_output_pec50_RF.csv"
                     )
                     
                     try:
@@ -426,8 +424,7 @@ def pred():
                         "-jar PaDEL-Descriptor/PaDEL-Descriptor.jar "
                         "-removesalt -standardizenitro -fingerprints "
                         "-descriptortypes PaDEL-Descriptor/SubstructureFingerprintCount.xml "
-                        "-smiles molecule.smi "
-                        "-file descriptors_output_pec50_CF.csv"
+                        "-dir ./ -file descriptors_output_pec50_CF.csv"
                     )
                     
                     try:
