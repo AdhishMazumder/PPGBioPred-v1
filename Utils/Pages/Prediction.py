@@ -78,13 +78,13 @@ def pred():
 
         # Button functionality
         if st.button("Submit for Prediction", key='Submit'):
-            # Clean up previous files
-            if os.path.exists('molecule.smi'):
-                os.remove('molecule.smi')
-            #if os.path.exists('descriptors_output_pic50_RF.csv'):
-                #os.remove('descriptors_output_pic50_RF.csv')
-            #if os.path.exists('descriptors_output_pic50_CF.csv'):
-                #os.remove('descriptors_output_pic50_CF.csv')
+            # Remove old files to force fresh calculation
+            for file in ['molecule.smi', 'descriptors_output_pic50_RF.csv', 'descriptors_output_pic50_CF.csv']:
+                if os.path.exists(file):
+                    os.remove(file)
+            
+            # Confirm new input (optional debugging)
+            st.write("New SMILES input:", compound_smiles)
             
             submission_data = pd.DataFrame(
                 {"SMILES": [compound_smiles], "Compound Name/ID": [compound_name]}
