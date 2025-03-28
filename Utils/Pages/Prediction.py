@@ -132,7 +132,7 @@ def pred():
                     prediction = load_model.predict(input_data)
 
                     st.markdown('###### **$IC_{50}$**')
-                    prediction_output = pd.Series(prediction, name='pIC50')
+                    prediction_output = pd.Series(np.round(prediction,2), name='pIC50')
                     molecule_name_series = pd.Series(compound_name, name='Compound Name/ID')
 
                     # Convert pIC50 to IC50 (in M) and then to nM
@@ -350,7 +350,7 @@ def pred():
                     prediction = load_model.predict(input_data)
 
                     st.markdown('###### **$EC_{50}$**')
-                    prediction_output = pd.Series(prediction, name='pEC50')
+                    prediction_output = pd.Series(np.round(prediction,2), name='pEC50')
                     molecule_name_series = pd.Series(compound_name, name='Compound Name/ID')
 
                     # Convert pIC50 to EC50 (in M) and then to nM
