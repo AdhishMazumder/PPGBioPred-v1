@@ -96,10 +96,10 @@ def pred():
                     # Full command to run PaDEL-Descriptor for descriptor calculation
                     bashCommand = (
                         "java -Xms2G -Xmx2G -Djava.awt.headless=true "
-                        "-jar PaDEL-Descriptor/PaDEL-Descriptor.jar "
+                        "-jar ./PaDEL-Descriptor/PaDEL-Descriptor.jar "
                         "-removesalt -standardizenitro -fingerprints "
-                        "-descriptortypes PaDEL-Descriptor/SubstructureFingerprinter.xml "
-                        "-dir ./ -file descriptors_output_pic50_RF.csv"
+                        "-descriptortypes ./PaDEL-Descriptor/SubstructureFingerprinter.xml "
+                        "-dir ./ -file pic50_RF.csv"
                     )
                     
                     try:
@@ -173,7 +173,7 @@ def pred():
                     desc_calc()
 
                     # Read in calculated descriptors
-                    desc = pd.read_csv('descriptors_output_pic50_RF.csv')
+                    desc = pd.read_csv('pic50_RF.csv')
                     st.write(desc)
                     st.write(desc.shape)
                     
@@ -196,10 +196,10 @@ def pred():
                     # Full command to run PaDEL-Descriptor for descriptor calculation
                     bashCommand_clf = (
                         "java -Xms2G -Xmx2G -Djava.awt.headless=true "
-                        "-jar PaDEL-Descriptor/PaDEL-Descriptor.jar "
+                        "-jar ./PaDEL-Descriptor/PaDEL-Descriptor.jar "
                         "-removesalt -standardizenitro -fingerprints "
-                        "-descriptortypes PaDEL-Descriptor/MACCSFingerprinter.xml "
-                        "-dir ./ -file descriptors_output_pic50_CF.csv"
+                        "-descriptortypes ./PaDEL-Descriptor/MACCSFingerprinter.xml "
+                        "-dir ./ -file pic50_CF.csv"
                     )
                     
                     try:
@@ -283,7 +283,7 @@ def pred():
                     desc_calc_clf()
 
                     # Read in calculated descriptors
-                    desc_clf = pd.read_csv('descriptors_output_pic50_CF.csv')
+                    desc_clf = pd.read_csv('pic50_CF.csv')
                     
                     # Read descriptor list used in previously built model
                     Xlist_clf = list(pd.read_csv('./Utils/Pages/Models/Classification/IC50/df_MACCS_final_classification.csv').columns)
@@ -298,8 +298,8 @@ def pred():
                     # Apply the trained regression model to make predictions
                     build_model_clf(desc_subset_clf, compound_name)
 
-                    # Clear session state to ensure fresh predictions next time
-                    st.session_state.clear()
+            # Clear session state to ensure fresh predictions next time
+            st.session_state.clear()
 
     # Target Specification for Pathways
     if compound_pathway == "EC50":
