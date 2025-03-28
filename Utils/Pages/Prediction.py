@@ -408,7 +408,7 @@ def pred():
                     downloadbutton = Image.open(download)
 
                     # Load the saved regression model
-                    cf_subc_ec50 = './Utils/Pages/Models/Classification/IC50/rf_subc_model.pkl'
+                    cf_subc_ec50 = './Utils/Pages/Models/Classification/EC50/rf_subc_model.pkl'
                     load_model_clf = joblib.load(open(cf_subc_ec50, 'rb'))
 
                     # Apply model to make predictions
