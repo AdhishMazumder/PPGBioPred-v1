@@ -239,7 +239,7 @@ def pred():
                         if 5.0 <= reg_pIC50 <= 6.0 and classification_result == 'active':
                             classification_result = 'intermediate'
                             
-                    prediction_output_clf = pd.Series(classification_result.capitalize().iloc[0], name='Classification')
+                    prediction_output_clf = pd.Series(classification_result.capitalize(), name='Classification')
                     molecule_name_series = pd.Series(compound_name, name='Compound Name/ID')
 
                     df_clf = pd.concat([molecule_name_series, prediction_output_clf], axis=1)
