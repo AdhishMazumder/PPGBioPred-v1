@@ -139,15 +139,15 @@ def pred():
 
                     st.markdown('###### **$IC_{50}$**')
                     prediction_output = pd.Series(prediction, name='pIC50')
-                    st.write(prediction_output)
+                    print(prediction_output)
                     molecule_name_series = pd.Series(compound_name, name='Compound Name/ID')
-                    st.write(molecule_name_series)
+                    print(molecule_name_series)
 
                     # Convert pIC50 to IC50 (in M) and then to nM
                     calc_IC50 = 10 ** (-prediction_output) * 1e9  # 10^(-pIC50) in M -> nM conversion
-                    st.write(calc_IC50)
+                    print(calc_IC50)
                     prediction_IC50 = pd.Series(np.round(calc_IC50.iloc[0], 2), name='IC50 (nM)')
-                    st.write(prediction_IC50)
+                    print(prediction_IC50)
 
                     df = pd.concat([molecule_name_series, prediction_output, prediction_IC50], axis=1)
                     c1, c2 = st.columns(2)
