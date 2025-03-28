@@ -26,13 +26,9 @@ def coreapp():
     Logo = Image.open(Server_Logo)
 
     # ---Head Page Configuration--- #
-    left_col, right_col, right_col2 = st.columns(3)
+    left_col, right_col = st.columns(2)
 
     left_col.image(Logo, output_format="PNG", channels="RGB", width=900)
-    right_col2.markdown("###### **Created by Adhish Mazumder and Dr. I. Manjubala**")
-    right_col2.markdown("###### ***from Biomaterials and Bone Research Laboratory***")
-    right_col2.markdown("###### ***School of BioSciences and Technology,***")
-    right_col2.markdown("###### ***Vellore Institute of Technology, Vellore.***")
 
     # ---Hiding the Streamlit Header and Footer--- #
     hide_st_style = """
