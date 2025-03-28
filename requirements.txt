@@ -17,4 +17,3 @@ ipython_genutils
 python-dotenv
 pickle-mixin
 joblib
-default-jre-headless
