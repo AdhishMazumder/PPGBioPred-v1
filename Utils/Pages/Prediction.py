@@ -96,7 +96,7 @@ def pred():
                     # Full command to run PaDEL-Descriptor for descriptor calculation
                     bashCommand = (
                         "java -Xms2G -Xmx2G -Djava.awt.headless=true "
-                        "-jar ./PaDEL-Descriptor/PaDEL-Descriptor.jar "
+                        "-jar PaDEL-Descriptor/PaDEL-Descriptor.jar "
                         "-removesalt -standardizenitro -fingerprints "
                         "-descriptortypes ./PaDEL-Descriptor/SubstructureFingerprinter.xml "
                         "-smiles molecule.smi "
@@ -196,7 +196,7 @@ def pred():
                     # Full command to run PaDEL-Descriptor for descriptor calculation
                     bashCommand_clf = (
                         "java -Xms2G -Xmx2G -Djava.awt.headless=true "
-                        "-jar ./PaDEL-Descriptor/PaDEL-Descriptor.jar "
+                        "-jar PaDEL-Descriptor/PaDEL-Descriptor.jar "
                         "-removesalt -standardizenitro -fingerprints "
                         "-descriptortypes ./PaDEL-Descriptor/MACCSFingerprinter.xml "
                         "-smiles molecule.smi "
@@ -330,7 +330,7 @@ def pred():
                     # Full command to run PaDEL-Descriptor for descriptor calculation
                     bashCommand = (
                         "java -Xms2G -Xmx2G -Djava.awt.headless=true "
-                        "-jar ./PaDEL-Descriptor/PaDEL-Descriptor.jar "
+                        "-jar PaDEL-Descriptor/PaDEL-Descriptor.jar "
                         "-removesalt -standardizenitro -fingerprints "
                         "-descriptortypes ./PaDEL-Descriptor/PubchemFingerprinter.xml "
                         "-smiles molecule.smi "
@@ -423,7 +423,7 @@ def pred():
                     # Full command to run PaDEL-Descriptor for descriptor calculation
                     bashCommand_clf = (
                         "java -Xms2G -Xmx2G -Djava.awt.headless=true "
-                        "-jar ./PaDEL-Descriptor/PaDEL-Descriptor.jar "
+                        "-jar PaDEL-Descriptor/PaDEL-Descriptor.jar "
                         "-removesalt -standardizenitro -fingerprints "
                         "-descriptortypes ./PaDEL-Descriptor/SubstructureFingerprintCount.xml "
                         "-smiles molecule.smi "
