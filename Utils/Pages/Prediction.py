@@ -182,7 +182,7 @@ def pred():
                         "java -Xms2G -Xmx2G -Djava.awt.headless=true "
                         "-jar ./PaDEL-Descriptor/PaDEL-Descriptor.jar "
                         "-removesalt -standardizenitro -fingerprints "
-                        "-descriptortypes ./PaDEL-Descriptor/MACCSFingerprintCount.xml "
+                        "-descriptortypes ./PaDEL-Descriptor/MACCSFingerprinter.xml "
                         "-dir ./ -file descriptors_output_pic50_CF.csv"
                     )
                     
@@ -259,3 +259,5 @@ def pred():
 
                     # Apply the trained regression model to make predictions
                     build_model_clf(desc_subset_clf, compound_name)
+
+
