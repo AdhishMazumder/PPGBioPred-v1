@@ -79,12 +79,9 @@ def pred():
         # Button functionality
         if st.button("Submit for Prediction", key='Submit'):
             # Remove old files to force fresh calculation
-            for file in ['molecule.smi', 'descriptors_output_pic50_RF.csv', 'descriptors_output_pic50_CF.csv']:
+            for file in ['molecule.smi']:
                 if os.path.exists(file):
                     os.remove(file)
-            
-            # Confirm new input (optional debugging)
-            st.write("New SMILES input:", compound_smiles)
             
             submission_data = pd.DataFrame(
                 {"SMILES": [compound_smiles], "Compound Name/ID": [compound_name]}
@@ -295,6 +292,9 @@ def pred():
                     # Apply the trained regression model to make predictions
                     build_model_clf(desc_subset_clf, compound_name)
 
+                    # Clear session state to ensure fresh predictions next time
+                    st.session_state.clear()
+
     # Target Specification for Pathways
     if compound_pathway == "EC50":
         wnt_targets = col2.selectbox(
@@ -309,10 +309,7 @@ def pred():
             # Clean up previous files
             if os.path.exists('molecule.smi'):
                 os.remove('molecule.smi')
-            #if os.path.exists('descriptors_output_pec50_RF.csv'):
-                #os.remove('descriptors_output_pec50_RF.csv')
-            #if os.path.exists('descriptors_output_pec50_CF.csv'):
-                #os.remove('descriptors_output_pec50_CF.csv')
+
             submission_data = pd.DataFrame(
                 {"SMILES": [compound_smiles], "Compound Name/ID": [compound_name]}
             )
@@ -521,4 +518,6 @@ def pred():
 
                     # Apply the trained regression model to make predictions
                     build_model_clf(desc_subset_clf, compound_name)
-
+                    
+                    # Clear session state to ensure fresh predictions next time
+                    st.session_state.clear()
