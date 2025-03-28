@@ -357,7 +357,7 @@ def pred():
                     calc_EC50 = 10 ** (-prediction_output) * 1e9  # 10^(-pEC50) in M -> nM conversion
                     prediction_EC50 = pd.Series(np.round(calc_EC50.iloc[0], 2), name='EC50 (nM)')
 
-                    df = pd.concat([molecule_name_series, prediction_output.iloc[0], prediction_EC50.iloc[0]], axis=1)
+                    df = pd.concat([molecule_name_series, prediction_output, prediction_EC50], axis=1)
                     c1, c2 = st.columns(2)
                     with c1:
                         st.markdown(
