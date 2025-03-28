@@ -81,10 +81,10 @@ def pred():
             # Clean up previous files
             if os.path.exists('molecule.smi'):
                 os.remove('molecule.smi')
-            if os.path.exists('descriptors_output_pic50_RF.csv'):
-                os.remove('descriptors_output_pic50_RF.csv')
-            if os.path.exists('descriptors_output_pic50_CF.csv'):
-                os.remove('descriptors_output_pic50_CF.csv')
+            #if os.path.exists('descriptors_output_pic50_RF.csv'):
+                #os.remove('descriptors_output_pic50_RF.csv')
+            #if os.path.exists('descriptors_output_pic50_CF.csv'):
+                #os.remove('descriptors_output_pic50_CF.csv')
             
             submission_data = pd.DataFrame(
                 {"SMILES": [compound_smiles], "Compound Name/ID": [compound_name]}
