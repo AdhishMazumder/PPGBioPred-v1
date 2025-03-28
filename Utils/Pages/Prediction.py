@@ -238,10 +238,23 @@ def pred():
 
                     c1, c2 = st.columns(2)
                     with c1:
-                        st.markdown(
-                            str(compound_name) + " is " +
-                            "<span style='color:green'><b>" + classification_result.capitalize() + "</b></span>" +
-                            " against the target.", unsafe_allow_html=True)
+                        if classification_result == 'active':
+                            st.markdown(
+                                f"{compound_name} demonstrates <span style='color:green'><b>Active</b></span> inhibition of the target.",
+                                unsafe_allow_html=True
+                            )
+                        
+                        elif classification_result == 'inactive':
+                            st.markdown(
+                                f"{compound_name} does not exhibit significant activity against the target.",
+                                unsafe_allow_html=True
+                            )
+                        
+                        elif classification_result == 'intermediate':
+                            st.markdown(
+                                f"{compound_name} demonstrates an <span style='color:orange'><b>Intermediate</b></span> effect, suggesting possible dose-dependence.",
+                                unsafe_allow_html=True
+                            )
                         st.write(df_clf)
 
                     c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15 = st.columns(15)
@@ -443,11 +456,23 @@ def pred():
                 
                     c1, c2 = st.columns(2)
                     with c1:
-                        st.markdown(
-                            f"{compound_name} is " +
-                            "<span style='color:green'><b>" + classification_result.capitalize() + "</b></span>" +
-                            " against the target.", unsafe_allow_html=True
-                        )
+                        if classification_result == 'active':
+                            st.markdown(
+                                f"{compound_name} exhibits <span style='color:green'><b>High</b></span> potency against the target.",
+                                unsafe_allow_html=True
+                            )
+                        
+                        elif classification_result == 'inactive':
+                            st.markdown(
+                                f"{compound_name} does not exhibit significant activity against the target.",
+                                unsafe_allow_html=True
+                            )
+                        
+                        elif classification_result == 'intermediate':
+                            st.markdown(
+                                f"{compound_name} demonstrates an <span style='color:orange'><b>Intermediate</b></span> effect, suggesting possible dose-dependence.",
+                                unsafe_allow_html=True
+                            )
                         st.write(df_clf)
                 
                     c1, c2, *_ = st.columns(15)
