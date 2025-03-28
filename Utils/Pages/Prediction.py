@@ -417,21 +417,15 @@ def pred():
                     prediction_clf = load_model_clf.predict(input_data)
                     # Convert prediction to a mutable type if needed (e.g., list)
                     classification_result = str(prediction_clf[0]).lower()  # assume output is a string like 'active' or 'inactive'
-
-                    # retrieve the regression pEC50
-                    reg_pEC50 = st.session_state.get('reg_pEC50', None)
-                    st.write("DEBUG: classification_result before override:", classification_result)
-                    st.write("DEBUG: pEC50 from session state:", reg_pEC50)
                 
                     # Retrieve the regression pEC50 value (if available)
                     reg_pEC50 = st.session_state.get('reg_pEC50', None)
                     if reg_pEC50 is not None:
                         # If the pEC50 is between 5.0 and 6.0 and classification predicts 'active', override it to 'intermediate'
                         if 5.0 <= reg_pEC50 <= 6.0 and classification_result == 'active':
-                            classification_result = 'intermediate'
-                            st.write("DEBUG: classification_result overridden to 'intermediate'")             
+                            classification_result = 'intermediate'            
                     
-                    prediction_output_clf = pd.Series(classification_result, name='Classification')
+                    prediction_output_clf = pd.Series(classification_result.capitalize(), name='Classification')
                     molecule_name_series = pd.Series(compound_name, name='Compound Name/ID')
                 
                     df_clf = pd.concat([molecule_name_series, prediction_output_clf], axis=1)
