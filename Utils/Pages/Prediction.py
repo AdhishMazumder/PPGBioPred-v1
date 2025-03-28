@@ -99,8 +99,7 @@ def pred():
                         "-jar ./PaDEL-Descriptor/PaDEL-Descriptor.jar "
                         "-removesalt -standardizenitro -fingerprints "
                         "-descriptortypes ./PaDEL-Descriptor/SubstructureFingerprinter.xml "
-                        "-smi molecule.smi "    # Use -smi instead of -dir
-                        "-file pic50_RF.csv"
+                        "-dir ./ -file pic50_RF.csv"
                     )
                     
                     try:
