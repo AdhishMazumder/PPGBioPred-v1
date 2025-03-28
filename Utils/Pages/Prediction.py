@@ -174,6 +174,7 @@ def pred():
 
                     # Read in calculated descriptors
                     desc = pd.read_csv('descriptors_output_pic50_RF.csv')
+                    st.write(desc)
                     st.write(desc.shape)
                     
                     # Read descriptor list used in previously built model
