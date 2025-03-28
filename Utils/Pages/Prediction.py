@@ -229,7 +229,7 @@ def pred():
                     reg_pIC50 = st.session_state.get('reg_pIC50', None)
                     if reg_pIC50 is not None:
                         # If the pIC50 is between 5.0 and 6.0 and classification predicts 'active', override it to 'intermediate'
-                        if 5.0 <= reg_pIC50 <= 6.0 and classification_result == 'active':
+                        if 5.0 <= reg_pIC50 <= 5.99 and classification_result == 'active':
                             classification_result = 'intermediate'
                             
                     prediction_output_clf = pd.Series(classification_result.capitalize(), name='Classification')
