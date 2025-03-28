@@ -236,7 +236,7 @@ def pred():
                         st.image(downloadbutton, output_format="PNG", channels="RGB", width=25)
                     with c5:
                         st.markdown(filedownload_clf(df_clf), unsafe_allow_html=True)
-                    return df
+                    return df_clf
 
                 with st.spinner("PPGBioPred is calculating Bioactivity..."):
                     # Calculate descriptors using PaDEL-Descriptor
