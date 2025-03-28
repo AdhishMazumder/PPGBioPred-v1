@@ -103,14 +103,20 @@ def pred():
                         "-file pic50_RF.csv"
                     )
                     
-                    result = subprocess.run(bashCommand, shell=True, capture_output=True, text=True)
-                    if result.returncode != 0:
-                        st.error("Descriptor calculation for regression failed:\n" + result.stderr)
-                    else:
-                        st.success("Descriptor calculation for regression completed.")
-                        print(result.stdout)
+                    try:
+                        process = subprocess.Popen(
+                            bashCommand, shell=True,
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE
+                        )
+                        output, error = process.communicate()
+                        if process.returncode == 0:
+                            print("Descriptor calculation completed successfully.")
+                        else:
+                            print(f"Error encountered:\n{error.decode('utf-8')}")
+                    except Exception as e:
+                        print(f"An error occurred: {e}")
                     # Optionally, remove the molecule file
-                    os.remove('molecule.smi')
+                    # os.remove('molecule.smi')
 
                 # File download helper
                 def filedownload(df):
@@ -133,15 +139,11 @@ def pred():
 
                     st.markdown('###### **$IC_{50}$**')
                     prediction_output = pd.Series(prediction, name='pIC50')
-                    print(prediction_output)
                     molecule_name_series = pd.Series(compound_name, name='Compound Name/ID')
-                    print(molecule_name_series)
 
                     # Convert pIC50 to IC50 (in M) and then to nM
                     calc_IC50 = 10 ** (-prediction_output) * 1e9  # 10^(-pIC50) in M -> nM conversion
-                    print(calc_IC50)
                     prediction_IC50 = pd.Series(np.round(calc_IC50.iloc[0], 2), name='IC50 (nM)')
-                    print(prediction_IC50)
 
                     df = pd.concat([molecule_name_series, prediction_output, prediction_IC50], axis=1)
                     c1, c2 = st.columns(2)
