@@ -203,7 +203,7 @@ def pred():
                 # File download helper
                 def filedownload_clf(df_clf):
                     csv_clf = df_clf.to_csv(index=False)
-                    b64_clf = base64.b64encode(csv.encode()).decode()  # string <-> bytes conversion
+                    b64_clf = base64.b64encode(csv_clf.encode()).decode()  # string <-> bytes conversion
                     href_clf = f'<a href="data:file/csv;base64_clf,{b64}" download="prediction_clf.csv">Download </a>'
                     return href_clf
 
