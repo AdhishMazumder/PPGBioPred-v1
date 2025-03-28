@@ -99,14 +99,16 @@ def pred():
                         "-jar ./PaDEL-Descriptor/PaDEL-Descriptor.jar "
                         "-removesalt -standardizenitro -fingerprints "
                         "-descriptortypes ./PaDEL-Descriptor/SubstructureFingerprinter.xml "
-                        "-dir ./ -file pic50_RF.csv"
+                        "-smi molecule.smi "    # Use -smi instead of -dir
+                        "-file pic50_RF.csv"
                     )
                     
-                    process = subprocess.Popen(
-                        bashCommand, shell=True,
-                        stdout=subprocess.PIPE, stderr=subprocess.PIPE
-                    )
-                    output, error = process.communicate()
+                    result = subprocess.run(bashCommand, shell=True, capture_output=True, text=True)
+                    if result.returncode != 0:
+                        st.error("Descriptor calculation for regression failed:\n" + result.stderr)
+                    else:
+                        st.success("Descriptor calculation for regression completed.")
+                        print(result.stdout)
                     # Optionally, remove the molecule file
                     os.remove('molecule.smi')
 
