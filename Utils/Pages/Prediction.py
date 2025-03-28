@@ -139,11 +139,15 @@ def pred():
 
                     st.markdown('###### **$IC_{50}$**')
                     prediction_output = pd.Series(prediction, name='pIC50')
+                    st.write(prediction_output)
                     molecule_name_series = pd.Series(compound_name, name='Compound Name/ID')
+                    st.write(molecule_name_series)
 
                     # Convert pIC50 to IC50 (in M) and then to nM
                     calc_IC50 = 10 ** (-prediction_output) * 1e9  # 10^(-pIC50) in M -> nM conversion
+                    st.write(calc_IC50)
                     prediction_IC50 = pd.Series(np.round(calc_IC50.iloc[0], 2), name='IC50 (nM)')
+                    st.write(prediction_IC50)
 
                     df = pd.concat([molecule_name_series, prediction_output, prediction_IC50], axis=1)
                     c1, c2 = st.columns(2)
@@ -170,9 +174,11 @@ def pred():
 
                     # Read in calculated descriptors
                     desc = pd.read_csv('descriptors_output_pic50_RF.csv')
+                    st.write(desc)
                     
                     # Read descriptor list used in previously built model
                     Xlist = list(pd.read_csv('./Utils/Pages/Models/Regression/IC50/df_Substructure_final.csv').columns)
+                    st.write(Xlist)
                     
                     # Instead of dropping columns, select only the columns that are common between the descriptor file and Xlist
                     common_cols = [col for col in Xlist if col in desc.columns]
@@ -180,6 +186,7 @@ def pred():
                         st.error("None of the expected descriptor columns were found in the descriptor file.")
                         st.stop()
                     desc_subset = desc[common_cols]
+                    st.write(desc_subset)
 
                     # Apply the trained regression model to make predictions
                     build_model(desc_subset, compound_name)
