@@ -102,12 +102,11 @@ def pred():
                         "-dir ./ -file pic50_RF.csv"
                     )
                     
-                    try:
-                        process = subprocess.Popen(
-                            bashCommand, shell=True,
-                            stdout=subprocess.PIPE, stderr=subprocess.PIPE
-                        )
-                        output, error = process.communicate()
+                    process = subprocess.Popen(
+                        bashCommand, shell=True,
+                        stdout=subprocess.PIPE, stderr=subprocess.PIPE
+                    )
+                    output, error = process.communicate()
                     # Optionally, remove the molecule file
                     os.remove('molecule.smi')
 
