@@ -136,7 +136,7 @@ def pred():
 
                     # Convert pIC50 to IC50 (in M) and then to nM
                     calc_IC50 = 10 ** (-prediction_output) * 1e9  # 10^(-pIC50) in M -> nM conversion
-                    prediction_IC50 = pd.Series(calc_IC50, name='IC50 (nM)')
+                    prediction_IC50 = pd.Series(np.round(calc_IC50, 2), name='IC50 (nM)')
 
                     df = pd.concat([molecule_name_series, prediction_output, prediction_IC50], axis=1)
                     c1, c2 = st.columns(2)
@@ -153,6 +153,8 @@ def pred():
                         st.image(downloadbutton, output_format="PNG", channels="RGB", width=25)
                     with c2:
                         st.markdown(filedownload(df), unsafe_allow_html=True)
+                    # Store the regression pIC50 prediction in session state for later use
+                    st.session_state['reg_pIC50'] = prediction_output.iloc[0]
                     return df
 
                 with st.spinner("PPGBioPred is calculating Bioactivity..."):
@@ -219,8 +221,17 @@ def pred():
 
                     # Apply model to make predictions
                     prediction_clf = load_model_clf.predict(input_data)
+                    # Convert prediction to a mutable type if needed (e.g., list)
+                    classification_result = str(prediction_clf[0]).lower()  # assume output is a string like 'active' or 'inactive'
 
-                    prediction_output_clf = pd.Series(prediction_clf, name='Classification')
+                    # Retrieve the regression pIC50 value (if available)
+                    reg_pIC50 = st.session_state.get('reg_pIC50', None)
+                    if reg_pIC50 is not None:
+                        # If the pIC50 is between 5.0 and 6.0 and classification predicts 'active', override it to 'intermediate'
+                        if 5.0 <= reg_pIC50 <= 6.0 and classification_result == 'active':
+                            classification_result = 'intermediate'
+                            
+                    prediction_output_clf = pd.Series(classification_result.capitalize(), name='Classification')
                     molecule_name_series = pd.Series(compound_name, name='Compound Name/ID')
 
                     df_clf = pd.concat([molecule_name_series, prediction_output_clf], axis=1)
@@ -229,7 +240,7 @@ def pred():
                     with c1:
                         st.markdown(
                             str(compound_name) + " is " +
-                            "<span style='color:green'><b>" + str(prediction_output_clf[0]) + "</b></span>" +
+                            "<span style='color:green'><b>" + classification_result.capitalize() + "</b></span>" +
                             " against the target.", unsafe_allow_html=True)
                         st.write(df_clf)
 
@@ -330,7 +341,7 @@ def pred():
 
                     # Convert pIC50 to EC50 (in M) and then to nM
                     calc_EC50 = 10 ** (-prediction_output) * 1e9  # 10^(-pEC50) in M -> nM conversion
-                    prediction_EC50 = pd.Series(calc_EC50, name='EC50 (nM)')
+                    prediction_EC50 = pd.Series(np.round(calc_EC50, 2), name='EC50 (nM)')
 
                     df = pd.concat([molecule_name_series, prediction_output, prediction_EC50], axis=1)
                     c1, c2 = st.columns(2)
