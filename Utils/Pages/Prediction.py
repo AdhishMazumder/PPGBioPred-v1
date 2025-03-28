@@ -181,6 +181,7 @@ def pred():
                         st.error("None of the expected descriptor columns were found in the descriptor file.")
                         st.stop()
                     desc_subset = desc[common_cols]
+                    st.write(desc_subset)
                     st.write(desc_subset.shape)
 
                     # Apply the trained regression model to make predictions
