@@ -139,7 +139,7 @@ def pred():
                     prediction_IC50 = pd.Series(calc_IC50, name='IC50 (nM)')
 
                     df = pd.concat([molecule_name_series, prediction_output, prediction_IC50], axis=1)
-                     c1, c2 = st.columns(2)
+                    c1, c2 = st.columns(2)
                     with c1:
                         st.markdown(
                             "The **$IC_{50}$** of " + str(compound_name) + " is " +
