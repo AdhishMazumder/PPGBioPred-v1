@@ -103,7 +103,7 @@ def pred():
                         "-removesalt -standardizenitro -fingerprints "
                         "-descriptortypes ./PaDEL-Descriptor/SubstructureFingerprintCount.xml "
                         "-smiles molecule.smi "
-                        "-dir ./ -file descriptors_output_pic50_RF.csv"
+                        "-file descriptors_output_pic50_RF.csv"
                     )
                     
                     try:
@@ -196,7 +196,7 @@ def pred():
                         "-removesalt -standardizenitro -fingerprints "
                         "-descriptortypes ./PaDEL-Descriptor/MACCSFingerprinter.xml "
                         "-smiles molecule.smi "
-                        "-dir ./ -file descriptors_output_pic50_CF.csv"
+                        "-file descriptors_output_pic50_CF.csv"
                     )
                     
                     try:
@@ -236,16 +236,16 @@ def pred():
                     classification_result = str(prediction_clf[0]).lower()  # assume output is a string like 'active' or 'inactive'
 
                     # Retrieve the regression pIC50 value (if available)
-                    reg_pIC50.iloc[0] = st.session_state.get('reg_pIC50', None)
-                    if reg_pIC50.iloc[0] is not None:
+                    reg_pIC50 = st.session_state.get('reg_pIC50', None)
+                    if reg_pIC50 is not None:
                         # If the pIC50 is between 5.0 and 6.0 and classification predicts 'active', override it to 'intermediate'
-                        if 5.0 <= reg_pIC50 <= 6.0 and classification_result.iloc[0] == 'active':
-                            classification_result.iloc[0] = 'intermediate'
+                        if 5.0 <= reg_pIC50 <= 6.0 and classification_result == 'active':
+                            classification_result = 'intermediate'
                             
                     prediction_output_clf = pd.Series(classification_result.capitalize().iloc[0], name='Classification')
                     molecule_name_series = pd.Series(compound_name, name='Compound Name/ID')
 
-                    df_clf = pd.concat([molecule_name_series, prediction_output_clf.iloc[0]], axis=1)
+                    df_clf = pd.concat([molecule_name_series, prediction_output_clf], axis=1)
 
                     c1, c2 = st.columns(2)
                     with c1:
@@ -330,7 +330,7 @@ def pred():
                         "-removesalt -standardizenitro -fingerprints "
                         "-descriptortypes ./PaDEL-Descriptor/PubchemFingerprinter.xml "
                         "-smiles molecule.smi "
-                        "-dir ./ -file descriptors_output_pec50_RF.csv"
+                        "-file descriptors_output_pec50_RF.csv"
                     )
                     
                     try:
@@ -423,7 +423,7 @@ def pred():
                         "-removesalt -standardizenitro -fingerprints "
                         "-descriptortypes ./PaDEL-Descriptor/SubstructureFingerprintCount.xml "
                         "-smiles molecule.smi "
-                        "-dir ./ -file descriptors_output_pec50_CF.csv"
+                        "-file descriptors_output_pec50_CF.csv"
                     )
                     
                     try:
