@@ -223,7 +223,7 @@ def pred():
                     prediction_output_clf = pd.Series(prediction_clf, name='Classification')
                     molecule_name_series = pd.Series(compound_name, name='Compound Name/ID')
 
-                    df_clf = pd.concat([molecule_name_series, prediction_output_clf], axis=1)
+                    df_clf = pd.concat([molecule_name_series, prediction_output_clf, prediction_output, prediction_IC50], axis=1)
 
                     st.markdown(
                         "The compound, " + str(compound_name) + " is " +
