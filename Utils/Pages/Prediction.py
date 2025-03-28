@@ -347,6 +347,8 @@ def pred():
                         st.image(downloadbutton, output_format="PNG", channels="RGB", width=25)
                     with c2:
                         st.markdown(filedownload(df), unsafe_allow_html=True)
+                    # Store the regression pEC50 prediction in session state for later use
+                    st.session_state['reg_pEC50'] = prediction_output.iloc[0]
                     return df
 
                 with st.spinner("PPGBioPred is calculating Bioactivity..."):
@@ -406,28 +408,38 @@ def pred():
                 def build_model_clf(input_data, compound_name):
                     download = './Utils/Pictures/Download-Icon.png'
                     downloadbutton = Image.open(download)
-
-                    # Load the saved regression model
+                
+                    # Load the saved classification model
                     cf_subc_ec50 = './Utils/Pages/Models/Classification/EC50/rf_subc_model.pkl'
                     load_model_clf = joblib.load(open(cf_subc_ec50, 'rb'))
-
+                
                     # Apply model to make predictions
                     prediction_clf = load_model_clf.predict(input_data)
-
-                    prediction_output_clf = pd.Series(prediction_clf, name='Classification')
+                    # Convert prediction to a mutable type if needed (e.g., list)
+                    classification_result = str(prediction_clf[0]).lower()  # assume output is a string like 'active' or 'inactive'
+                
+                    # Retrieve the regression pEC50 value (if available)
+                    reg_pEC50 = st.session_state.get('reg_pEC50', None)
+                    if reg_pEC50 is not None:
+                        # If the pEC50 is between 5.0 and 6.0 and classification predicts 'active', override it to 'intermediate'
+                        if 5.0 <= reg_pEC50 <= 6.0 and classification_result == 'active':
+                            classification_result = 'intermediate'
+                
+                    prediction_output_clf = pd.Series(classification_result, name='Classification')
                     molecule_name_series = pd.Series(compound_name, name='Compound Name/ID')
-
+                
                     df_clf = pd.concat([molecule_name_series, prediction_output_clf], axis=1)
-
+                
                     c1, c2 = st.columns(2)
                     with c1:
                         st.markdown(
-                            str(compound_name) + " is " +
-                            "<span style='color:green'><b>" + str(prediction_output_clf[0]) + "</b></span>" +
-                            " against the target.", unsafe_allow_html=True)
+                            f"{compound_name} is " +
+                            "<span style='color:green'><b>" + classification_result.capitalize() + "</b></span>" +
+                            " against the target.", unsafe_allow_html=True
+                        )
                         st.write(df_clf)
-
-                    c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15 = st.columns(15)
+                
+                    c1, c2, *_ = st.columns(15)
                     with c1:
                         st.image(downloadbutton, output_format="PNG", channels="RGB", width=25)
                     with c2:
