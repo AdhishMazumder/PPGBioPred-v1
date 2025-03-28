@@ -98,7 +98,7 @@ def pred():
                         "java -Xms2G -Xmx2G -Djava.awt.headless=true "
                         "-jar PaDEL-Descriptor/PaDEL-Descriptor.jar "
                         "-removesalt -standardizenitro -fingerprints "
-                        "-descriptortypes ./PaDEL-Descriptor/SubstructureFingerprinter.xml "
+                        "-descriptortypes PaDEL-Descriptor/SubstructureFingerprinter.xml "
                         "-smiles molecule.smi "
                         "-file descriptors_output_pic50_RF.csv"
                     )
@@ -198,7 +198,7 @@ def pred():
                         "java -Xms2G -Xmx2G -Djava.awt.headless=true "
                         "-jar PaDEL-Descriptor/PaDEL-Descriptor.jar "
                         "-removesalt -standardizenitro -fingerprints "
-                        "-descriptortypes ./PaDEL-Descriptor/MACCSFingerprinter.xml "
+                        "-descriptortypes PaDEL-Descriptor/MACCSFingerprinter.xml "
                         "-smiles molecule.smi "
                         "-file descriptors_output_pic50_CF.csv"
                     )
@@ -332,7 +332,7 @@ def pred():
                         "java -Xms2G -Xmx2G -Djava.awt.headless=true "
                         "-jar PaDEL-Descriptor/PaDEL-Descriptor.jar "
                         "-removesalt -standardizenitro -fingerprints "
-                        "-descriptortypes ./PaDEL-Descriptor/PubchemFingerprinter.xml "
+                        "-descriptortypes PaDEL-Descriptor/PubchemFingerprinter.xml "
                         "-smiles molecule.smi "
                         "-file descriptors_output_pec50_RF.csv"
                     )
@@ -425,7 +425,7 @@ def pred():
                         "java -Xms2G -Xmx2G -Djava.awt.headless=true "
                         "-jar PaDEL-Descriptor/PaDEL-Descriptor.jar "
                         "-removesalt -standardizenitro -fingerprints "
-                        "-descriptortypes ./PaDEL-Descriptor/SubstructureFingerprintCount.xml "
+                        "-descriptortypes PaDEL-Descriptor/SubstructureFingerprintCount.xml "
                         "-smiles molecule.smi "
                         "-file descriptors_output_pec50_CF.csv"
                     )
