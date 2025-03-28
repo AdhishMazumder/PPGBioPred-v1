@@ -139,13 +139,14 @@ def pred():
                     prediction_IC50 = pd.Series(calc_IC50, name='IC50 (nM)')
 
                     df = pd.concat([molecule_name_series, prediction_output, prediction_IC50], axis=1)
-
-                    st.markdown(
-                        "The **$IC_{50}$** of " + str(compound_name) + " is " +
-                        "<span style='color:green'><b>" + str(np.round(calc_IC50.iloc[0], 2)) +
-                        " nM</b></span>", unsafe_allow_html=True
-                    )
-                    st.write(df)
+                     c1, c2 = st.columns(2)
+                    with c1:
+                        st.markdown(
+                            "The **$IC_{50}$** of " + str(compound_name) + " is " +
+                            "<span style='color:green'><b>" + str(np.round(calc_IC50.iloc[0], 2)) +
+                            " nM</b></span>", unsafe_allow_html=True
+                        )
+                        st.write(df)
 
                     c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15 = st.columns(15)
                     with c1:
@@ -223,18 +224,20 @@ def pred():
                     prediction_output_clf = pd.Series(prediction_clf, name='Classification')
                     molecule_name_series = pd.Series(compound_name, name='Compound Name/ID')
 
-                    df_clf = pd.concat([molecule_name_series, prediction_output_clf, prediction_output, prediction_IC50], axis=1)
+                    df_clf = pd.concat([molecule_name_series, prediction_output_clf], axis=1)
 
-                    st.markdown(
-                        "The compound, " + str(compound_name) + " is " +
-                        "<span style='color:green'><b>" + str(prediction_output_clf[0]) + "</b></span>" +
-                        " against the target.", unsafe_allow_html=True)
-                    st.write(df_clf)
+                    c1, c2 = st.columns(2)
+                    with c1:
+                        st.markdown(
+                            "The compound, " + str(compound_name) + " is " +
+                            "<span style='color:green'><b>" + str(prediction_output_clf[0]) + "</b></span>" +
+                            " against the target.", unsafe_allow_html=True)
+                        st.write(df_clf)
 
                     c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15 = st.columns(15)
-                    with c4:
+                    with c1:
                         st.image(downloadbutton, output_format="PNG", channels="RGB", width=25)
-                    with c5:
+                    with c2:
                         st.markdown(filedownload_clf(df_clf), unsafe_allow_html=True)
                     return df_clf
 
