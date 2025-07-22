@@ -57,6 +57,11 @@ def about():
                 We hope that this web server will be a valuable tool for the 
                 scientific community, and we are committed to keeping it up-to-date with the latest advances in machine 
                 learning and drug discovery.
-                </h6>        
+                </h6>
+                <h6 style='text-align: justify; color: black;font-weight: normal;'>
+                If you find value using our webserver please cite it the our paper: Adhish, M., Manjubala, I. PPGBioPred: 
+                a webserver for predicting the bioactivity of compounds against PPARγ involved in the negative regulation of the 
+                Wnt/β-catenin signaling pathway. Mol Divers (2025). https://doi.org/10.1007/s11030-025-11297-1.
+                </h6>  
                 """, unsafe_allow_html=True
     )
