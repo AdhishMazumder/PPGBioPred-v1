@@ -21,3 +21,6 @@ The requirements.txt contains the list of all libraries that you need to downloa
 **Step 5.** You can extract the result of the prediction by downloading it directly on your local device.
 
 ![Predicting the bioactivity of Compound](https://github.com/AdhishMazumder/PPGBioPred-v1/blob/main/Utils/Pictures/Figure%2010.png)
+
+**If you find value using this webserver, please cite our paper:**
+*Adhish, M., Manjubala, I. PPGBioPred: a webserver for predicting the bioactivity of compounds against PPARγ involved in the negative regulation of the Wnt/β-catenin signaling pathway. Mol Divers (2025). https://doi.org/10.1007/s11030-025-11297-1.* 
