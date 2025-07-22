@@ -58,10 +58,10 @@ def about():
                 scientific community, and we are committed to keeping it up-to-date with the latest advances in machine 
                 learning and drug discovery.
                 </h6>
-                <h8 style='text-align: justify; color: black;font-weight: bold;'>
+                <h6 style='text-align: justify; color: black;font-weight: italics;'>
                 If you find value using this webserver please cite our paper: Adhish, M., Manjubala, I. PPGBioPred: 
                 a webserver for predicting the bioactivity of compounds against PPARγ involved in the negative regulation of the 
                 Wnt/β-catenin signaling pathway. Mol Divers (2025). https://doi.org/10.1007/s11030-025-11297-1.
-                </h8>  
+                </h6>  
                 """, unsafe_allow_html=True
     )
