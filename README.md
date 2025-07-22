@@ -20,4 +20,4 @@ The requirements.txt contains the list of all libraries that you need to downloa
 
 **Step 5.** You can extract the result of the prediction by downloading it directly on your local device.
 
-![Predicting the bioactivity of Compound](https://github.com/AdhishMazumder/PPGBioPred-v1.0/blob/main/Utils/Pictures/Prediction%20Steps.png)
+![Predicting the bioactivity of Compound](https://github.com/AdhishMazumder/PPGBioPred-v1-Data/blob/main/Figure%2010.tif)
